@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "plugins": [
+    {
+      "name": "ports",
+      "description": "SSH port forwarding manager",
+      "version": "1.0.0",
+      "url": "https://raw.githubusercontent.com/yourname/tooldock-plugins/main/ports/ports.sh",
+      "type": "script",
+      "checksum": ""
+    }
+  ]
+}
