@@ -126,7 +126,7 @@ check_requirements() {
 }
 
 is_port_in_use() {
-    lsof -ti ":$1" >/dev/null 2>&1
+    lsof -sTCP:LISTEN -ti ":$1" >/dev/null 2>&1
 }
 
 get_pid_for_port() {
