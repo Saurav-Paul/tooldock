@@ -67,7 +67,7 @@ build_all_platforms() {
 
     for platform in "${platforms[@]}"; do
         IFS='/' read -r os arch <<< "$platform"
-        output="build/tooldock_${os}_${arch}"
+        output="../build/tooldock_${os}_${arch}"
 
         echo -e "${YELLOW}Building ${os}/${arch}...${NC}"
         docker compose run --rm -e GOOS=$os -e GOARCH=$arch dev \
