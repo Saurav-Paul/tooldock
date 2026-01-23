@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/yourname/tooldock/pkg/config"
+	"github.com/Saurav-Paul/tooldock/pkg/config"
 )
 
 // IsPluginInstalled checks if a plugin is installed

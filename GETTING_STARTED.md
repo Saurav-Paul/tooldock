@@ -124,7 +124,7 @@ To make plugin management work, you need to:
 1. **Create `tooldock` repository**
    ```bash
    # On GitHub, create: yourname/tooldock
-   git remote add origin https://github.com/yourname/tooldock.git
+   git remote add origin https://github.com/Saurav-Paul/tooldock.git
    git push -u origin main
    ```
 
@@ -159,7 +159,7 @@ To make plugin management work, you need to:
    Edit `tooldock/pkg/config/config.go`:
    ```go
    const (
-       PluginRegistryURL = "https://raw.githubusercontent.com/YOURNAME/tooldock-plugins/main/plugins.json"
+       PluginRegistryURL = "https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/plugins.json"
    )
    ```
 
@@ -169,7 +169,7 @@ To make plugin management work, you need to:
    docker compose run --rm -e GOOS=darwin -e GOARCH=arm64 dev go build -ldflags="-w -s" -o ../build/tooldock .
 
    # Test it
-   export TOOLDOCK_REGISTRY_URL=https://raw.githubusercontent.com/YOURNAME/tooldock-plugins/main/plugins.json
+   export TOOLDOCK_REGISTRY_URL=https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/plugins.json
    ./build/tooldock plugin list
    ./build/tooldock plugin install ports
    ./build/tooldock ports --help
@@ -217,7 +217,7 @@ func main() {
 
 **go.mod** - Dependencies list
 ```
-module github.com/yourname/tooldock
+module github.com/Saurav-Paul/tooldock
 
 require github.com/spf13/cobra v1.8.0  // CLI framework
 ```

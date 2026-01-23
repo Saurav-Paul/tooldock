@@ -19,7 +19,7 @@ You need to create two repositories:
 # Then push your local code:
 
 cd /Users/saurav_paul/Developments/hobby-project/tools
-git remote add origin https://github.com/YOURNAME/tooldock.git
+git remote add origin https://github.com/Saurav-Paul/tooldock.git
 git branch -M main
 git add .
 git commit -m "Initial commit: tooldock plugin manager"
@@ -47,7 +47,7 @@ cat > plugins.json << 'EOF'
       "name": "ports",
       "description": "SSH port forwarding manager - forward and manage SSH tunnels easily",
       "version": "1.0.0",
-      "url": "https://raw.githubusercontent.com/YOURNAME/tooldock-plugins/main/ports/ports.sh",
+      "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/ports/ports.sh",
       "type": "script",
       "checksum": ""
     }
@@ -59,7 +59,7 @@ EOF
 git init
 git add .
 git commit -m "Add ports plugin"
-git remote add origin https://github.com/YOURNAME/tooldock-plugins.git
+git remote add origin https://github.com/Saurav-Paul/tooldock-plugins.git
 git branch -M main
 git push -u origin main
 ```
@@ -73,10 +73,10 @@ Update the default registry URL in your tooldock code:
 # Change line 9 from:
 #   defaultRegistryURL = "https://raw.githubusercontent.com/yourname/tooldock-plugins/main/plugins.json"
 # To:
-#   defaultRegistryURL = "https://raw.githubusercontent.com/YOURNAME/tooldock-plugins/main/plugins.json"
+#   defaultRegistryURL = "https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/plugins.json"
 ```
 
-Replace `YOURNAME` with your actual GitHub username.
+Replace `Saurav-Paul` with your actual GitHub username.
 
 ## Step 3: Build Release Binaries
 
@@ -119,17 +119,17 @@ cd /Users/saurav_paul/Developments/hobby-project/tools
 
    ```bash
    # macOS Apple Silicon
-   curl -L https://github.com/YOURNAME/tooldock/releases/download/v1.0.0/tooldock_darwin_arm64 -o tooldock
+   curl -L https://github.com/Saurav-Paul/tooldock/releases/download/v1.0.0/tooldock_darwin_arm64 -o tooldock
    chmod +x tooldock
    sudo mv tooldock /usr/local/bin/tooldock
 
    # macOS Intel
-   curl -L https://github.com/YOURNAME/tooldock/releases/download/v1.0.0/tooldock_darwin_amd64 -o tooldock
+   curl -L https://github.com/Saurav-Paul/tooldock/releases/download/v1.0.0/tooldock_darwin_amd64 -o tooldock
    chmod +x tooldock
    sudo mv tooldock /usr/local/bin/tooldock
 
    # Linux
-   curl -L https://github.com/YOURNAME/tooldock/releases/download/v1.0.0/tooldock_linux_amd64 -o tooldock
+   curl -L https://github.com/Saurav-Paul/tooldock/releases/download/v1.0.0/tooldock_linux_amd64 -o tooldock
    chmod +x tooldock
    sudo mv tooldock /usr/local/bin/tooldock
    ```
@@ -144,7 +144,7 @@ On a fresh machine (or after removing local builds):
 
 ```bash
 # Download and install
-curl -L https://github.com/YOURNAME/tooldock/releases/download/v1.0.0/tooldock_darwin_arm64 -o tooldock
+curl -L https://github.com/Saurav-Paul/tooldock/releases/download/v1.0.0/tooldock_darwin_arm64 -o tooldock
 chmod +x tooldock
 sudo mv tooldock /usr/local/bin/tooldock
 
@@ -159,13 +159,13 @@ tooldock ports --help
 
 ## Step 6: Update Documentation
 
-Replace all instances of `YOURNAME` in documentation:
+Replace all instances of `Saurav-Paul` in documentation:
 
 ```bash
 cd /Users/saurav_paul/Developments/hobby-project/tools
 
-# Find all files with YOURNAME placeholder
-grep -r "YOURNAME" .
+# Find all files with Saurav-Paul placeholder
+grep -r "Saurav-Paul" .
 
 # Update these files:
 # - README.md
@@ -186,7 +186,7 @@ Before announcing your project:
 - [ ] `tooldock plugin list` shows ports plugin
 - [ ] `tooldock plugin install ports` works
 - [ ] `tooldock ports --help` displays help
-- [ ] All documentation updated (no YOURNAME placeholders)
+- [ ] All documentation updated (no Saurav-Paul placeholders)
 - [ ] README.md looks good on GitHub
 
 ## Optional Enhancements
@@ -209,7 +209,7 @@ case $ARCH in
 esac
 
 BINARY="tooldock_${OS}_${ARCH}"
-URL="https://github.com/YOURNAME/tooldock/releases/latest/download/${BINARY}"
+URL="https://github.com/Saurav-Paul/tooldock/releases/latest/download/${BINARY}"
 
 echo "Installing tooldock..."
 echo "Platform: ${OS}/${ARCH}"
@@ -227,7 +227,7 @@ tooldock --version
 
 Then users can install with:
 ```bash
-curl -sfL https://raw.githubusercontent.com/YOURNAME/tooldock/main/install.sh | sh
+curl -sfL https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/install.sh | sh
 ```
 
 ### Add GitHub Actions
@@ -293,4 +293,4 @@ After deployment:
 
 ---
 
-**Remember**: Replace all instances of `YOURNAME` with your actual GitHub username before deploying!
+**Remember**: Replace all instances of `Saurav-Paul` with your actual GitHub username before deploying!

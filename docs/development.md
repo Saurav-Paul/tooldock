@@ -34,7 +34,7 @@ See [Docker Development Guide](./docker.md) for detailed instructions.
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourname/tooldock.git
+git clone https://github.com/Saurav-Paul/tooldock.git
 cd tooldock
 ```
 
@@ -350,7 +350,7 @@ func DoSomething() error {
 
 3. Use in commands:
 ```go
-import "github.com/yourname/tooldock/pkg/mypackage"
+import "github.com/Saurav-Paul/tooldock/pkg/mypackage"
 
 // In your command:
 mypackage.DoSomething()

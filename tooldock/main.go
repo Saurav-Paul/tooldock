@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/yourname/tooldock/cmd"
+	"github.com/Saurav-Paul/tooldock/cmd"
 )
 
 func main() {

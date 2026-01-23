@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/yourname/tooldock/pkg/config"
+	"github.com/Saurav-Paul/tooldock/pkg/config"
 )
 
 type Plugin struct {

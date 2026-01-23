@@ -1,4 +1,4 @@
-module github.com/yourname/tooldock
+module github.com/Saurav-Paul/tooldock
 
 go 1.21
 

@@ -39,7 +39,7 @@ tooldock ports start -p 5432 --host wsl
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOURNAME/tooldock.git
+git clone https://github.com/Saurav-Paul/tooldock.git
 cd tooldock
 
 # Build for macOS Apple Silicon
@@ -165,7 +165,7 @@ tooldock plugin remove <name>     # Remove a plugin
 **Using Docker:**
 
 ```bash
-git clone https://github.com/yourname/tooldock.git
+git clone https://github.com/Saurav-Paul/tooldock.git
 cd tooldock
 
 # Initialize and build
@@ -179,7 +179,7 @@ cd tooldock
 **Using Go:**
 
 ```bash
-git clone https://github.com/yourname/tooldock.git
+git clone https://github.com/Saurav-Paul/tooldock.git
 cd tooldock
 
 # Build

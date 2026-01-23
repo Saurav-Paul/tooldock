@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/yourname/tooldock/pkg/registry"
+	"github.com/Saurav-Paul/tooldock/pkg/registry"
 )
 
 var pluginCmd = &cobra.Command{

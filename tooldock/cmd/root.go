@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/yourname/tooldock/pkg/config"
-	"github.com/yourname/tooldock/pkg/executor"
+	"github.com/Saurav-Paul/tooldock/pkg/config"
+	"github.com/Saurav-Paul/tooldock/pkg/executor"
 )
 
 var rootCmd = &cobra.Command{
