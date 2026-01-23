@@ -27,3 +27,6 @@ Thumbs.db
 
 # Local testing
 .tooldock/
+
+# Local documentation and notes
+_local/
