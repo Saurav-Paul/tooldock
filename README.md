@@ -33,7 +33,20 @@ tooldock ports start -p 5432 --host wsl
 
 ## Quick Start
 
+📖 **[Complete Installation & Usage Guide →](docs/USAGE.md)**
+
 ### Installation
+
+**From GitHub Release (Recommended):**
+
+```bash
+# macOS Apple Silicon
+curl -L https://github.com/Saurav-Paul/tooldock/releases/download/v1.0.0/tooldock_darwin_arm64 -o tooldock
+chmod +x tooldock
+sudo mv tooldock /usr/local/bin/tooldock
+
+# For other platforms, see the full guide above
+```
 
 **Build from source (cross-platform):**
 
@@ -110,27 +123,57 @@ tooldock plugin remove ports
 
 ### Currently Available
 
-#### ports - SSH Port Forwarding Manager
+All plugins are available in the [`tooldock-plugins/`](tooldock-plugins/) directory of this repository.
+
+#### 🔌 ports - SSH Port Forwarding Manager
+**Location**: [`tooldock-plugins/ports/`](tooldock-plugins/ports/)
+**Version**: 1.0.0
+**Type**: Shell Script
+
 Manage SSH port forwards with a beautiful CLI interface.
 
+**Installation:**
 ```bash
 tooldock plugin install ports
-tooldock ports start -p 5432 --host wsl
+```
+
+**Quick Start:**
+```bash
+# Forward a port
+tooldock ports start -p 5432 -H user@server
+
+# List active tunnels
 tooldock ports list
+
+# Stop a tunnel
+tooldock ports stop 5432
+
+# Stop all tunnels
+tooldock ports stopall
 ```
 
 **Features:**
-- Start/stop/restart tunnels
-- Beautiful terminal UI
-- Auto-cleanup of stale tunnels
-- Docker-like syntax
+- ✅ Start/stop/restart SSH tunnels
+- ✅ Beautiful colored terminal UI
+- ✅ Auto-cleanup of stale tunnels
+- ✅ Support for jump hosts
+- ✅ Port remapping (local:remote)
+- ✅ Cross-platform (macOS/Linux)
 
-### Coming Soon
+[View full documentation →](tooldock-plugins/ports/README.md)
 
-- **db-tools** - Database connection manager
-- **api-client** - API testing tool
-- **env-manager** - Environment variable manager
-- **git-flow** - Enhanced Git workflow
+---
+
+### Adding Your Own Plugins
+
+Plugins live in [`tooldock-plugins/`](tooldock-plugins/). To add a new plugin:
+
+1. Create a directory: `tooldock-plugins/myplugin/`
+2. Add your executable: `myplugin.sh` (or any language)
+3. Update [`tooldock-plugins/plugins.json`](tooldock-plugins/plugins.json)
+4. Push to GitHub - users can install immediately!
+
+[Plugin development guide →](tooldock-plugins/README.md)
 
 ### Plugin Commands
 
