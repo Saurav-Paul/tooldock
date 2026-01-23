@@ -30,3 +30,4 @@ Thumbs.db
 
 # Local documentation and notes
 _local/
+.claude/

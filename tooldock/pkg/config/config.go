@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	defaultRegistryURL = "https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/plugins.json"
+	defaultRegistryURL = "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/plugins.json"
 	AppName            = "tooldock"
 	Version            = "1.0.0"
 )
