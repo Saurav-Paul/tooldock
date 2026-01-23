@@ -1,0 +1,30 @@
+# Binaries
+tooldock
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Build directory
+build/
+dist/
+
+# Go
+*.test
+*.out
+go.work
+# go.sum will be generated, keep it in git
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local testing
+.tooldock/
