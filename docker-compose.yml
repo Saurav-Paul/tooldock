@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Development environment with Go tools
+  dev:
+    build:
+      context: .
+      target: dev
+    volumes:
+      - ./tooldock:/app/tooldock
+      - ./build:/app/build
+      - go-modules:/go/pkg/mod
+    working_dir: /app/tooldock
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+  # Build service - builds the binary
+  build:
+    build:
+      context: .
+      target: builder
+    volumes:
+      - ./tooldock:/app/tooldock
+      - ./build:/app/build
+      - go-modules:/go/pkg/mod
+
+  # Runtime service - runs the built binary
+  run:
+    build:
+      context: .
+      target: runtime
+    volumes:
+      - ${HOME}/.tooldock:/root/.tooldock
+    command: version
+
+volumes:
+  go-modules:
