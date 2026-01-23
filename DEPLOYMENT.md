@@ -71,7 +71,7 @@ Update the default registry URL in your tooldock code:
 ```bash
 # Edit tooldock/pkg/config/config.go
 # Change line 9 from:
-#   defaultRegistryURL = "https://raw.githubusercontent.com/yourname/tooldock-plugins/main/plugins.json"
+#   defaultRegistryURL = "https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/plugins.json"
 # To:
 #   defaultRegistryURL = "https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/plugins.json"
 ```

@@ -12,7 +12,7 @@ tooldock is a plugin manager for CLI tools. Install only the tools you need, whe
 
 ```bash
 # Install tooldock
-curl -sfL https://raw.githubusercontent.com/yourname/tooldock/main/install.sh | sh
+curl -sfL https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/install.sh | sh
 
 # Install a plugin
 tooldock plugin install ports

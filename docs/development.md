@@ -404,7 +404,7 @@ ls -la ~/.tooldock/cache/
 
 ```bash
 # Manually test registry URL
-curl -s https://raw.githubusercontent.com/yourname/tooldock-plugins/main/plugins.json
+curl -s https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/plugins.json
 ```
 
 ## Troubleshooting
@@ -480,7 +480,7 @@ git push origin v1.0.0
 
 ```bash
 # Test installation script
-curl -sfL https://raw.githubusercontent.com/yourname/tooldock/main/install.sh | sh
+curl -sfL https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/install.sh | sh
 ```
 
 ## Resources

@@ -117,7 +117,7 @@ The `tooldock` command automatically detects and executes installed plugins.
 
 ```bash
 # 1. Install tooldock
-curl -sfL https://raw.githubusercontent.com/yourname/tooldock/main/install.sh | sh
+curl -sfL https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/install.sh | sh
 
 # 2. See what's available
 tooldock plugin list

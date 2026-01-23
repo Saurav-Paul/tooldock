@@ -60,7 +60,7 @@ Now you have a working `tooldock` binary! Let's test it:
 ```
 
 **Why does plugin list fail?**
-Because it tries to fetch from GitHub, but the URL points to `yourname/tooldock-plugins` which doesn't exist yet. That's normal!
+Because it tries to fetch from GitHub, but the URL points to `Saurav-Paul/tooldock-plugins` which doesn't exist yet. That's normal!
 
 ## Understanding What We Built
 
@@ -123,14 +123,14 @@ To make plugin management work, you need to:
 
 1. **Create `tooldock` repository**
    ```bash
-   # On GitHub, create: yourname/tooldock
+   # On GitHub, create: Saurav-Paul/tooldock
    git remote add origin https://github.com/Saurav-Paul/tooldock.git
    git push -u origin main
    ```
 
 2. **Create `tooldock-plugins` repository**
    ```bash
-   # On GitHub, create: yourname/tooldock-plugins
+   # On GitHub, create: Saurav-Paul/tooldock-plugins
    # Add this structure:
    tooldock-plugins/
    ├── plugins.json
@@ -147,7 +147,7 @@ To make plugin management work, you need to:
          "name": "ports",
          "description": "SSH port forwarding manager",
          "version": "1.0.0",
-         "url": "https://raw.githubusercontent.com/yourname/tooldock-plugins/main/ports/ports.sh",
+         "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/ports/ports.sh",
          "type": "script",
          "checksum": ""
        }

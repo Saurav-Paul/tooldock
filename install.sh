@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # tooldock installer
-# One-line install: curl -sfL https://raw.githubusercontent.com/yourname/tooldock/main/install.sh | sh
+# One-line install: curl -sfL https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/install.sh | sh
 #
 
 set -e
@@ -13,7 +13,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 # Configuration
-REPO="yourname/tooldock"
+REPO="Saurav-Paul/tooldock"
 INSTALL_DIR="/usr/local/bin"
 BINARY_NAME="tooldock"
 

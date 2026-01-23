@@ -73,7 +73,7 @@ Then modify `pkg/config/config.go` to point to your local file during developmen
          "name": "ports",
          "description": "SSH port forwarding manager",
          "version": "1.0.0",
-         "url": "https://raw.githubusercontent.com/yourname/tooldock-plugins/main/ports/ports.sh",
+         "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock-plugins/main/ports/ports.sh",
          "type": "script",
          "checksum": ""
        }
@@ -100,7 +100,7 @@ Then modify `pkg/config/config.go` to point to your local file during developmen
 
 ### Add Your GitHub Username
 
-Replace `yourname` in these files:
+Replace `Saurav-Paul` in these files:
 - `pkg/config/config.go` - PluginRegistryURL
 - `go.mod` - module path
 - `README.md` - all URLs
@@ -134,7 +134,7 @@ make build-all
 
 3. Test installation:
    ```bash
-   curl -sfL https://raw.githubusercontent.com/yourname/tooldock/main/install.sh | sh
+   curl -sfL https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/install.sh | sh
    ```
 
 ## Common Issues

@@ -7,7 +7,7 @@ BUILD_DIR=build
 INSTALL_PATH=/usr/local/bin
 
 # Build flags
-LDFLAGS=-ldflags "-X github.com/yourname/tooldock/pkg/config.Version=$(VERSION)"
+LDFLAGS=-ldflags "-X github.com/Saurav-Paul/tooldock/pkg/config.Version=$(VERSION)"
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
