@@ -19,6 +19,20 @@ tooldock ports list
 tooldock ports stop 5432
 ```
 
+### ssh
+Interactive SSH host manager - quickly connect to saved hosts.
+
+**Install:**
+```bash
+tooldock plugin install ssh
+```
+
+**Usage:**
+```bash
+tooldock ssh           # Interactive selection
+tooldock ssh wsl       # Direct connection
+```
+
 ## Adding a New Plugin
 
 1. **Create plugin directory:**

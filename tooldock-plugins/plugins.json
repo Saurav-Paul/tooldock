@@ -8,6 +8,14 @@
       "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/ports/ports.sh",
       "type": "script",
       "checksum": ""
+    },
+    {
+      "name": "ssh",
+      "description": "Interactive SSH host manager - quickly connect to saved hosts",
+      "version": "1.0.0",
+      "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/ssh/ssh.sh",
+      "type": "script",
+      "checksum": ""
     }
   ]
 }
