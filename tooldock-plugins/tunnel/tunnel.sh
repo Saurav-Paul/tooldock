@@ -1,17 +1,17 @@
 #!/bin/bash
 #
 # SSH Tunnel Manager
-# A simple, beautiful tool to manage SSH port forwards
+# A simple, beautiful tool to manage SSH tunnels
 #
 # ╔════════════════════════════════════════════════════════════════════════╗
 # ║                          INSTALLATION                                  ║
 # ╚════════════════════════════════════════════════════════════════════════╝
 #
 # One-line install:
-#   curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/ports.sh | sudo bash -s -- install
+#   curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/tunnel.sh | sudo bash -s -- install
 #
 # Or manual install:
-#   curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/ports.sh -o ports
+#   curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/tunnel.sh -o ports
 #   chmod +x ports
 #   sudo mv ports /usr/local/bin/ports
 #
@@ -20,43 +20,43 @@
 # ╚════════════════════════════════════════════════════════════════════════╝
 #
 # 1. Start a tunnel (forward same port):
-#    ports start -p 5432 --host user@server.com
-#    ports start -p 5432 --host paul@wsl
+#    tunnel start -p 5432 --host user@server.com
+#    tunnel start -p 5432 --host paul@wsl
 #
 # 2. Start with different local/remote ports:
-#    ports start -p 8080:3000 --host user@server.com
+#    tunnel start -p 8080:3000 --host user@server.com
 #    # Local 8080 → Remote 3000
 #
 # 3. View active tunnels:
 #    ports
-#    ports list
+#    tunnel list
 #
 # 4. Stop a tunnel:
-#    ports stop 5432
+#    tunnel stop 5432
 #
 # 5. Restart a tunnel:
-#    ports restart 5432
+#    tunnel restart 5432
 #
 # ╔════════════════════════════════════════════════════════════════════════╗
 # ║                            USAGE EXAMPLES                              ║
 # ╚════════════════════════════════════════════════════════════════════════╝
 #
 # Forward PostgreSQL (same port on both sides):
-#   ports start -p 5432 --host paul@wsl
+#   tunnel start -p 5432 --host paul@wsl
 #   # localhost:5432 → wsl:5432
 #
 # Forward with different ports:
-#   ports start -p 8080:3000 --host user@server.com
+#   tunnel start -p 8080:3000 --host user@server.com
 #   # localhost:8080 → server:3000
 #
 # Forward to specific remote host:
-#   ports start -p 5432 --host user@jumphost.com -remote db.internal:5432
+#   tunnel start -p 5432 --host user@jumphost.com -remote db.internal:5432
 #   # localhost:5432 → db.internal:5432 (via jumphost)
 #
 # Multiple tunnels:
-#   ports start -p 5432 --host paul@wsl
-#   ports start -p 3000 --host paul@wsl
-#   ports start -p 8080:80 --host paul@wsl
+#   tunnel start -p 5432 --host paul@wsl
+#   tunnel start -p 3000 --host paul@wsl
+#   tunnel start -p 8080:80 --host paul@wsl
 #
 # Quick view:
 #   ports
@@ -228,19 +228,19 @@ start_tunnel() {
     # Validation
     if [ -z "$port_mapping" ]; then
         echo -e "${RED}❌ Port mapping is required${NC}"
-        echo "Usage: ports start -p <port[:remote_port]> --host <user@host> [-remote <remote_host>]"
+        echo "Usage: tunnel start -p <port[:remote_port]> --host <user@host> [-remote <remote_host>]"
         echo ""
         echo "Examples:"
-        echo "  ports start -p 5432 --host paul@wsl"
-        echo "  ports start -p 8080:3000 --host user@server.com"
-        echo "  ports start -p 5432 --host user@jump.com -remote db.internal:5432"
+        echo "  tunnel start -p 5432 --host paul@wsl"
+        echo "  tunnel start -p 8080:3000 --host user@server.com"
+        echo "  tunnel start -p 5432 --host user@jump.com -remote db.internal:5432"
         return 1
     fi
     
     if [ -z "$host" ]; then
         echo -e "${RED}❌ SSH host is required${NC}"
-        echo "Usage: ports start -p <port[:remote_port]> --host <user@host>"
-        echo "Example: ports start -p 5432 --host paul@wsl"
+        echo "Usage: tunnel start -p <port[:remote_port]> --host <user@host>"
+        echo "Example: tunnel start -p 5432 --host paul@wsl"
         return 1
     fi
     
@@ -266,7 +266,7 @@ start_tunnel() {
         echo -e "${RED}❌ Port $local_port is already in use${NC}"
         local existing_pid=$(get_pid_for_port "$local_port")
         if ps -p "$existing_pid" -o command= 2>/dev/null | grep -q "ssh.*-L"; then
-            echo -e "${YELLOW}   This looks like an existing tunnel. Stop it first with: ports stop $local_port${NC}"
+            echo -e "${YELLOW}   This looks like an existing tunnel. Stop it first with: tunnel stop $local_port${NC}"
         fi
         return 1
     fi
@@ -302,7 +302,7 @@ stop_tunnel() {
 
     if [ -z "$port" ]; then
         echo -e "${RED}❌ Please specify a port${NC}"
-        echo "Usage: ports stop <port>"
+        echo "Usage: tunnel stop <port>"
         return 1
     fi
 
@@ -342,7 +342,7 @@ restart_tunnel() {
 
     if [ -z "$port" ]; then
         echo -e "${RED}❌ Please specify a port${NC}"
-        echo "Usage: ports restart <port>"
+        echo "Usage: tunnel restart <port>"
         return 1
     fi
 
@@ -390,7 +390,7 @@ restart_tunnel() {
 
 list_tunnels() {
     echo -e "${BLUE}╔════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║${NC}              📋 Active SSH Port Forwards                    ${BLUE}║${NC}"
+    echo -e "${BLUE}║${NC}              📋 Active SSH Tunnels                    ${BLUE}║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
     
@@ -431,7 +431,7 @@ list_tunnels() {
     
     if [ "$has_tunnels" = false ]; then
         echo -e "  ${DIM}No active tunnels${NC}"
-        echo -e "  ${BLUE}💡 Start one with: ports start -p <port> --host <user@host>${NC}"
+        echo -e "  ${BLUE}💡 Start one with: tunnel start -p <port> --host <user@host>${NC}"
         echo ""
     fi
     
@@ -474,36 +474,36 @@ show_help() {
     echo ""
     echo -e "${GREEN}Commands:${NC}"
     echo ""
-    echo -e "  ${YELLOW}ports start -p <port[:remote_port]> --host <user@host> [-remote <host>]${NC}"
+    echo -e "  ${YELLOW}tunnel start -p <port[:remote_port]> --host <user@host> [-remote <host>]${NC}"
     echo -e "    Start a new tunnel"
     echo -e "    ${DIM}Examples:${NC}"
-    echo -e "      ${CYAN}ports start -p 5432 --host paul@wsl${NC}"
+    echo -e "      ${CYAN}tunnel start -p 5432 --host paul@wsl${NC}"
     echo -e "      ${DIM}# Forward localhost:5432 → wsl:5432${NC}"
     echo ""
-    echo -e "      ${CYAN}ports start -p 8080:3000 --host user@server.com${NC}"
+    echo -e "      ${CYAN}tunnel start -p 8080:3000 --host user@server.com${NC}"
     echo -e "      ${DIM}# Forward localhost:8080 → server:3000${NC}"
     echo ""
-    echo -e "      ${CYAN}ports start -p 5432 --host user@jump.com -remote db.internal:5432${NC}"
+    echo -e "      ${CYAN}tunnel start -p 5432 --host user@jump.com -remote db.internal:5432${NC}"
     echo -e "      ${DIM}# Forward localhost:5432 → db.internal:5432 (via jump.com)${NC}"
     echo ""
-    echo -e "  ${YELLOW}ports stop <port>${NC}"
+    echo -e "  ${YELLOW}tunnel stop <port>${NC}"
     echo -e "    Stop a tunnel"
-    echo -e "    ${DIM}Example: ${CYAN}ports stop 5432${NC}"
+    echo -e "    ${DIM}Example: ${CYAN}tunnel stop 5432${NC}"
     echo ""
-    echo -e "  ${YELLOW}ports restart <port>${NC}"
+    echo -e "  ${YELLOW}tunnel restart <port>${NC}"
     echo -e "    Restart an existing tunnel"
-    echo -e "    ${DIM}Example: ${CYAN}ports restart 5432${NC}"
+    echo -e "    ${DIM}Example: ${CYAN}tunnel restart 5432${NC}"
     echo ""
-    echo -e "  ${YELLOW}ports list${NC} ${DIM}(or just${NC} ${YELLOW}ports${NC}${DIM})${NC}"
+    echo -e "  ${YELLOW}tunnel list${NC} ${DIM}(or just${NC} ${YELLOW}ports${NC}${DIM})${NC}"
     echo -e "    Show all active tunnels"
     echo ""
-    echo -e "  ${YELLOW}ports stopall${NC}"
+    echo -e "  ${YELLOW}tunnel stopall${NC}"
     echo -e "    Stop all tunnels"
     echo ""
-    echo -e "  ${YELLOW}ports version${NC}"
+    echo -e "  ${YELLOW}tunnel version${NC}"
     echo -e "    Show version information"
     echo ""
-    echo -e "  ${YELLOW}ports help${NC}"
+    echo -e "  ${YELLOW}tunnel help${NC}"
     echo -e "    Show this help message"
     echo ""
     echo -e "${GREEN}Options:${NC}"
@@ -537,8 +537,8 @@ install_script() {
     echo -e "${GREEN}✅ You can now use 'ports' command${NC}"
     echo ""
     echo -e "${BLUE}Quick start:${NC}"
-    echo -e "  ${CYAN}ports start -p 5432 --host user@server.com${NC}"
-    echo -e "  ${CYAN}ports start -p 8080:3000 --host paul@wsl${NC}"
+    echo -e "  ${CYAN}tunnel start -p 5432 --host user@server.com${NC}"
+    echo -e "  ${CYAN}tunnel start -p 8080:3000 --host paul@wsl${NC}"
     echo -e "  ${CYAN}ports${NC}  ${DIM}# View active tunnels${NC}"
     echo ""
 }

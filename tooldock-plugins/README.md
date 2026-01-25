@@ -4,19 +4,19 @@ This directory contains all plugins available for tooldock.
 
 ## Available Plugins
 
-### ports
-SSH port forwarding manager - forward and manage SSH tunnels easily.
+### tunnel
+SSH tunnel manager - forward and manage SSH tunnels with auto-discovery.
 
 **Install:**
 ```bash
-tooldock plugin install ports
+tooldock plugin install tunnel
 ```
 
 **Usage:**
 ```bash
-tooldock ports start -p 5432 -H user@server
-tooldock ports list
-tooldock ports stop 5432
+tooldock tunnel start -p 5432 -H user@server
+tooldock tunnel list
+tooldock tunnel stop 5432
 ```
 
 ### ssh

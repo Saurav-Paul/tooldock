@@ -2,10 +2,10 @@
   "version": "1.0",
   "plugins": [
     {
-      "name": "ports",
-      "description": "SSH port forwarding manager - forward and manage SSH tunnels easily",
+      "name": "tunnel",
+      "description": "SSH tunnel manager - forward and manage SSH tunnels with auto-discovery",
       "version": "1.0.0",
-      "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/ports/ports.sh",
+      "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/tunnel/tunnel.sh",
       "type": "script",
       "checksum": ""
     },

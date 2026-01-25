@@ -1,24 +1,24 @@
-# ports - SSH Port Forwarding Manager
+# tunnel - SSH Port Forwarding Manager
 
 A beautiful CLI tool for managing SSH port forwarding tunnels.
 
 ## Installation
 
 ```bash
-tooldock plugin install ports
+tooldock plugin install tunnel
 ```
 
 ## Quick Start
 
 ```bash
 # Forward a port
-tooldock ports start -p 5432 -H user@server
+tooldock tunnel start -p 5432 -H user@server
 
 # List active tunnels
-tooldock ports list
+tooldock tunnel list
 
 # Stop a tunnel
-tooldock ports stop 5432
+tooldock tunnel stop 5432
 ```
 
 ## Features
@@ -38,7 +38,7 @@ tooldock ports stop 5432
 Forward a local port to a remote server:
 
 ```bash
-tooldock ports start -p <port> -H <user@host> [-r <remote>]
+tooldock tunnel start -p <port> -H <user@host> [-r <remote>]
 ```
 
 **Options:**
@@ -50,23 +50,23 @@ tooldock ports start -p <port> -H <user@host> [-r <remote>]
 
 Forward localhost:5432 → server:5432
 ```bash
-tooldock ports start -p 5432 -H paul@wsl
+tooldock tunnel start -p 5432 -H paul@wsl
 ```
 
 Forward localhost:8080 → server:3000 (port remapping)
 ```bash
-tooldock ports start -p 8080:3000 -H user@server.com
+tooldock tunnel start -p 8080:3000 -H user@server.com
 ```
 
 Forward through jump host
 ```bash
-tooldock ports start -p 5432 -H user@jump.com -r db.internal:5432
+tooldock tunnel start -p 5432 -H user@jump.com -r db.internal:5432
 ```
 
 ### List Active Tunnels
 
 ```bash
-tooldock ports list
+tooldock tunnel list
 # or simply
 tooldock ports
 ```
@@ -86,12 +86,12 @@ Port   → Remote             Host              PID     Status
 ### Stop a Tunnel
 
 ```bash
-tooldock ports stop <port>
+tooldock tunnel stop <port>
 ```
 
 **Example:**
 ```bash
-tooldock ports stop 5432
+tooldock tunnel stop 5432
 ```
 
 ### Restart a Tunnel
@@ -99,31 +99,31 @@ tooldock ports stop 5432
 Restart an existing tunnel (useful if connection dropped):
 
 ```bash
-tooldock ports restart <port>
+tooldock tunnel restart <port>
 ```
 
 **Example:**
 ```bash
-tooldock ports restart 5432
+tooldock tunnel restart 5432
 ```
 
 ### Stop All Tunnels
 
 ```bash
-tooldock ports stopall
+tooldock tunnel stopall
 ```
 
 ### Show Help
 
 ```bash
-tooldock ports help
-tooldock ports --help
+tooldock tunnel help
+tooldock tunnel --help
 ```
 
 ### Show Version
 
 ```bash
-tooldock ports version
+tooldock tunnel version
 ```
 
 ## Use Cases
@@ -132,7 +132,7 @@ tooldock ports version
 
 Forward PostgreSQL from remote server:
 ```bash
-tooldock ports start -p 5432 -H user@db-server
+tooldock tunnel start -p 5432 -H user@db-server
 psql -h localhost -p 5432 -U dbuser
 ```
 
@@ -140,7 +140,7 @@ psql -h localhost -p 5432 -U dbuser
 
 Forward development server:
 ```bash
-tooldock ports start -p 3000 -H user@dev-server
+tooldock tunnel start -p 3000 -H user@dev-server
 # Access at http://localhost:3000
 ```
 
@@ -148,7 +148,7 @@ tooldock ports start -p 3000 -H user@dev-server
 
 Access service behind jump host:
 ```bash
-tooldock ports start -p 8080 -H user@bastion.com -r internal-app:8080
+tooldock tunnel start -p 8080 -H user@bastion.com -r internal-app:8080
 # Access internal app at http://localhost:8080
 ```
 
@@ -156,9 +156,9 @@ tooldock ports start -p 8080 -H user@bastion.com -r internal-app:8080
 
 Forward multiple services:
 ```bash
-tooldock ports start -p 5432 -H user@server  # PostgreSQL
-tooldock ports start -p 6379 -H user@server  # Redis
-tooldock ports start -p 3000 -H user@server  # App
+tooldock tunnel start -p 5432 -H user@server  # PostgreSQL
+tooldock tunnel start -p 6379 -H user@server  # Redis
+tooldock tunnel start -p 3000 -H user@server  # App
 ```
 
 ## Tunnel Management
@@ -198,10 +198,10 @@ Each tunnel is tracked by its SSH process ID. The tool:
 lsof -i :5432
 
 # Stop existing tunnel if it's stale
-tooldock ports stop 5432
+tooldock tunnel stop 5432
 
 # Or use a different local port
-tooldock ports start -p 5433:5432 -H user@server
+tooldock tunnel start -p 5433:5432 -H user@server
 ```
 
 ### "SSH connection failed"
@@ -221,11 +221,11 @@ tooldock ports start -p 5433:5432 -H user@server
 **Solution:**
 ```bash
 # Restart the tunnel
-tooldock ports restart 5432
+tooldock tunnel restart 5432
 
 # Or stop and start fresh
-tooldock ports stop 5432
-tooldock ports start -p 5432 -H user@server
+tooldock tunnel stop 5432
+tooldock tunnel start -p 5432 -H user@server
 ```
 
 ### "Cannot find tunnel file"
@@ -236,7 +236,7 @@ tooldock ports start -p 5432 -H user@server
 ```bash
 # The file is created automatically
 # Just start a new tunnel
-tooldock ports start -p 5432 -H user@server
+tooldock tunnel start -p 5432 -H user@server
 ```
 
 ## Advanced Usage
@@ -251,8 +251,8 @@ Add to your shell profile (~/.bashrc or ~/.zshrc):
 
 ```bash
 # Start tunnels on login
-tooldock ports start -p 5432 -H paul@wsl 2>/dev/null
-tooldock ports start -p 3000 -H user@dev-server 2>/dev/null
+tooldock tunnel start -p 5432 -H paul@wsl 2>/dev/null
+tooldock tunnel start -p 3000 -H user@dev-server 2>/dev/null
 ```
 
 ### Custom SSH Options
