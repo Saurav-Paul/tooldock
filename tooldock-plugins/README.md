@@ -20,7 +20,7 @@ tooldock tunnel stop 5432
 ```
 
 ### ssh
-Interactive SSH host manager - quickly connect to saved hosts.
+Interactive SSH host manager - quickly connect to saved hosts and run remote commands.
 
 **Install:**
 ```bash
@@ -29,8 +29,10 @@ tooldock plugin install ssh
 
 **Usage:**
 ```bash
-tooldock ssh           # Interactive selection
-tooldock ssh wsl       # Direct connection
+tooldock ssh                    # Interactive selection
+tooldock ssh wsl                # Direct connection
+tooldock ssh wsl claude         # Run Claude on remote host
+tooldock ssh wsl docker ps      # Run commands remotely
 ```
 
 ## Adding a New Plugin
