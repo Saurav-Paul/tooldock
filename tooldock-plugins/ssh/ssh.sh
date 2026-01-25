@@ -131,17 +131,29 @@ show_menu() {
 # Direct connection
 connect_to_host() {
     local hostname=$1
+    shift  # Remove hostname from arguments
+    local cmd_args=("$@")
 
     # Check if host exists in config
     if ! get_hosts | grep -q "^${hostname}$"; then
         echo -e "${YELLOW}⚠️  Host '$hostname' not found in SSH config${NC}"
         echo -e "${BLUE}Attempting direct connection...${NC}"
     else
-        echo -e "${GREEN}🔗 Connecting to ${hostname}...${NC}"
+        if [ ${#cmd_args[@]} -gt 0 ]; then
+            echo -e "${GREEN}🚀 Running on ${hostname}: ${cmd_args[*]}${NC}"
+        else
+            echo -e "${GREEN}🔗 Connecting to ${hostname}...${NC}"
+        fi
     fi
 
     echo ""
-    ssh "$hostname"
+
+    # If command arguments provided, run with -t for interactive support
+    if [ ${#cmd_args[@]} -gt 0 ]; then
+        ssh -t "$hostname" "${cmd_args[@]}"
+    else
+        ssh "$hostname"
+    fi
 }
 
 show_help() {
@@ -158,6 +170,11 @@ show_help() {
     echo -e "    Connect directly to a host"
     echo -e "    ${DIM}Example: tooldock ssh wsl${NC}"
     echo ""
+    echo -e "  ${YELLOW}tooldock ssh <hostname> <command>${NC}"
+    echo -e "    Run a command on remote host (interactive)"
+    echo -e "    ${DIM}Example: tooldock ssh wsl claude${NC}"
+    echo -e "    ${DIM}Example: tooldock ssh wsl docker ps${NC}"
+    echo ""
     echo -e "  ${YELLOW}tooldock ssh --help${NC}"
     echo -e "    Show this help message"
     echo ""
@@ -169,6 +186,7 @@ show_help() {
     echo -e "  • Interactive numbered selection"
     echo -e "  • Shows host details (user, hostname, port)"
     echo -e "  • Direct connection by hostname"
+    echo -e "  • Run remote commands interactively"
     echo ""
     echo -e "${GREEN}Example SSH Config:${NC}"
     echo -e "  ${DIM}Host wsl${NC}"
