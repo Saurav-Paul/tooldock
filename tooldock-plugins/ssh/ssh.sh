@@ -213,7 +213,7 @@ main() {
             show_menu
             ;;
         *)
-            connect_to_host "$1"
+            connect_to_host "$@"
             ;;
     esac
 }
