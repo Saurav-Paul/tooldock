@@ -11,8 +11,8 @@
     },
     {
       "name": "ssh",
-      "description": "Interactive SSH host manager - quickly connect to saved hosts",
-      "version": "1.0.0",
+      "description": "Interactive SSH host manager - quickly connect to saved hosts and run commands",
+      "version": "1.2.0",
       "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/ssh/ssh.sh",
       "type": "script",
       "checksum": ""

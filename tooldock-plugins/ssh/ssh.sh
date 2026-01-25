@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-VERSION="1.0.0"
+VERSION="1.2.0"
 SSH_CONFIG="${HOME}/.ssh/config"
 
 # Colors
@@ -156,6 +156,55 @@ connect_to_host() {
     fi
 }
 
+# Run command with --run flag
+run_command() {
+    local hostname=$1
+    local command=$2
+
+    if [ -z "$command" ]; then
+        echo -e "${RED}❌ No command provided${NC}"
+        exit 1
+    fi
+
+    # Check if host exists in config
+    if ! get_hosts | grep -q "^${hostname}$"; then
+        echo -e "${YELLOW}⚠️  Host '$hostname' not found in SSH config${NC}"
+        echo -e "${BLUE}Attempting direct connection...${NC}"
+    else
+        echo -e "${GREEN}🚀 Running on ${hostname}: ${command}${NC}"
+    fi
+
+    echo ""
+    ssh -t "$hostname" "$command"
+}
+
+# Run script with --script flag
+run_script() {
+    local hostname=$1
+    local script_path=$2
+
+    if [ -z "$script_path" ]; then
+        echo -e "${RED}❌ No script path provided${NC}"
+        exit 1
+    fi
+
+    if [ ! -f "$script_path" ]; then
+        echo -e "${RED}❌ Script file not found: $script_path${NC}"
+        exit 1
+    fi
+
+    # Check if host exists in config
+    if ! get_hosts | grep -q "^${hostname}$"; then
+        echo -e "${YELLOW}⚠️  Host '$hostname' not found in SSH config${NC}"
+        echo -e "${BLUE}Attempting direct connection...${NC}"
+    else
+        echo -e "${GREEN}📜 Executing script on ${hostname}: ${script_path}${NC}"
+    fi
+
+    echo ""
+    ssh -t "$hostname" 'bash -s' < "$script_path"
+}
+
 show_help() {
     echo -e "${BLUE}╔════════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${BLUE}║${NC}                  SSH Host Manager v${VERSION}                 ${BLUE}║${NC}"
@@ -170,10 +219,16 @@ show_help() {
     echo -e "    Connect directly to a host"
     echo -e "    ${DIM}Example: tooldock ssh wsl${NC}"
     echo ""
-    echo -e "  ${YELLOW}tooldock ssh <hostname> <command>${NC}"
-    echo -e "    Run a command on remote host (interactive)"
-    echo -e "    ${DIM}Example: tooldock ssh wsl claude${NC}"
-    echo -e "    ${DIM}Example: tooldock ssh wsl docker ps${NC}"
+    echo -e "  ${YELLOW}tooldock ssh <hostname> --run <command>${NC}"
+    echo -e "    Run a command on remote host"
+    echo -e "    ${DIM}Example: tooldock ssh wsl --run \"docker ps\"${NC}"
+    echo -e "    ${DIM}Example: tooldock ssh wsl --run \"cd ~/project && npm start\"${NC}"
+    echo -e "    ${DIM}Example: tooldock ssh wsl --run claude${NC}"
+    echo ""
+    echo -e "  ${YELLOW}tooldock ssh <hostname> --script <script_path>${NC}"
+    echo -e "    Execute a local script file on remote host"
+    echo -e "    ${DIM}Example: tooldock ssh wsl --script ./deploy.sh${NC}"
+    echo -e "    ${DIM}Example: tooldock ssh orb --script /path/to/backup.sh${NC}"
     echo ""
     echo -e "  ${YELLOW}tooldock ssh --help${NC}"
     echo -e "    Show this help message"
@@ -187,6 +242,7 @@ show_help() {
     echo -e "  • Shows host details (user, hostname, port)"
     echo -e "  • Direct connection by hostname"
     echo -e "  • Run remote commands interactively"
+    echo -e "  • Execute local scripts on remote hosts"
     echo ""
     echo -e "${GREEN}Example SSH Config:${NC}"
     echo -e "  ${DIM}Host wsl${NC}"
@@ -213,7 +269,37 @@ main() {
             show_menu
             ;;
         *)
-            connect_to_host "$@"
+            # First argument should be hostname
+            local hostname="${1:-}"
+
+            if [ -z "$hostname" ]; then
+                echo -e "${RED}❌ Hostname required${NC}"
+                exit 1
+            fi
+
+            shift  # Remove hostname
+
+            # Check for flags
+            case "${1:-}" in
+                --run)
+                    shift
+                    run_command "$hostname" "$*"
+                    ;;
+                --script)
+                    shift
+                    run_script "$hostname" "$1"
+                    ;;
+                "")
+                    # No flag provided, just connect
+                    connect_to_host "$hostname"
+                    ;;
+                *)
+                    echo -e "${RED}❌ Invalid option: ${1}${NC}"
+                    echo -e "${YELLOW}Use --run for commands or --script for scripts${NC}"
+                    echo -e "${DIM}Run 'tooldock ssh --help' for usage information${NC}"
+                    exit 1
+                    ;;
+            esac
             ;;
     esac
 }

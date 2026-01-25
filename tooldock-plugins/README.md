@@ -29,10 +29,10 @@ tooldock plugin install ssh
 
 **Usage:**
 ```bash
-tooldock ssh                    # Interactive selection
-tooldock ssh wsl                # Direct connection
-tooldock ssh wsl claude         # Run Claude on remote host
-tooldock ssh wsl docker ps      # Run commands remotely
+tooldock ssh                             # Interactive selection
+tooldock ssh wsl                         # Direct connection
+tooldock ssh wsl --run "docker ps"       # Run commands remotely
+tooldock ssh wsl --script ./deploy.sh    # Execute local script
 ```
 
 ## Adding a New Plugin

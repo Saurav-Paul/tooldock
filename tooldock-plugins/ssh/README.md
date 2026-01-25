@@ -33,7 +33,10 @@ tooldock ssh
 tooldock ssh wsl
 
 # Run a command on remote host
-tooldock ssh wsl docker ps
+tooldock ssh wsl --run "docker ps"
+
+# Execute a local script on remote host
+tooldock ssh wsl --script ./deploy.sh
 ```
 
 ## Features
@@ -42,8 +45,9 @@ tooldock ssh wsl docker ps
 - ✅ Reads from ~/.ssh/config automatically
 - ✅ Shows host details (user, hostname, port)
 - ✅ Direct connection by hostname
-- ✅ **NEW:** Remote command execution with full TTY support
-- ✅ Support for interactive programs (vim, htop, Claude, etc.)
+- ✅ Remote command execution with `--run` flag
+- ✅ Execute local scripts on remote hosts with `--script` flag
+- ✅ Full TTY support for interactive programs (vim, htop, Claude, etc.)
 - ✅ Beautiful colored terminal UI
 - ✅ Works with all SSH config features (ProxyJump, IdentityFile, etc.)
 
@@ -91,53 +95,33 @@ tooldock ssh orb
 
 ### Remote Command Execution
 
-**NEW in v1.1.0:** Run commands on remote hosts without opening an interactive shell.
+Run commands on remote hosts without opening an interactive shell.
 
 #### Basic Syntax
 
 ```bash
-tooldock ssh <hostname> <command> [arguments...]
+# Run a command with --run flag
+tooldock ssh <hostname> --run "<command>"
+
+# Execute a local script file on remote host
+tooldock ssh <hostname> --script <script_path>
 ```
 
-#### Examples
+#### Using --run Flag
 
-**Run a single command:**
+The `--run` flag provides an explicit way to run commands on remote hosts:
+
 ```bash
-# Check Docker containers
-tooldock ssh wsl docker ps
+# Simple commands
+tooldock ssh wsl --run "docker ps"
+tooldock ssh orb --run "uname -a"
 
-# View system information
-tooldock ssh orb uname -a
-
-# Check disk usage
-tooldock ssh production df -h
-```
-
-**Interactive programs (full TTY support):**
-```bash
-# Start Claude on remote machine
-tooldock ssh wsl claude
-
-# Edit a file with vim
-tooldock ssh orb vim ~/config.yaml
-
-# Monitor system resources
-tooldock ssh production htop
-
-# Interactive Python REPL
-tooldock ssh wsl python3
-```
-
-**Complex commands (use quotes):**
-```bash
-# Change directory and run command
-tooldock ssh wsl "cd ~/project && npm start"
-
-# Pipe commands
-tooldock ssh orb "docker ps | grep running"
+# Complex commands with pipes and redirects
+tooldock ssh wsl --run "docker ps | grep running"
+tooldock ssh production --run "cd ~/project && npm start"
 
 # Multi-line commands
-tooldock ssh production "
+tooldock ssh production --run "
   cd /var/www/app
   git pull
   npm install
@@ -145,19 +129,36 @@ tooldock ssh production "
 "
 ```
 
-**Development workflows:**
+#### Using --script Flag
+
+The `--script` flag executes a local script file on the remote host:
+
 ```bash
-# Start development server
-tooldock ssh wsl "cd ~/api && poetry run api --debug"
+# Execute a deployment script
+tooldock ssh production --script ./deploy.sh
 
-# Run tests
-tooldock ssh orb "cd ~/project && npm test"
+# Run a backup script
+tooldock ssh db-server --script /path/to/backup.sh
 
-# View logs
-tooldock ssh production "tail -f /var/log/app.log"
+# Execute maintenance tasks
+tooldock ssh wsl --script ~/scripts/cleanup.sh
+```
 
-# Execute database migration
-tooldock ssh wsl "cd ~/project && python manage.py migrate"
+**Example script file (deploy.sh):**
+```bash
+#!/bin/bash
+set -e
+cd /var/www/app
+git pull origin main
+npm install
+npm run build
+pm2 restart app
+echo "Deployment completed!"
+```
+
+**Usage:**
+```bash
+tooldock ssh production --script ./deploy.sh
 ```
 
 ## SSH Config Setup
@@ -240,7 +241,7 @@ tooldock ssh
 tooldock ssh dev-server
 
 # Run command
-tooldock ssh dev-server systemctl status nginx
+tooldock ssh dev-server --run "systemctl status nginx"
 ```
 
 ### 2. Remote Development with Claude
@@ -249,7 +250,7 @@ Work with Claude on a remote machine:
 
 ```bash
 # Start interactive Claude session
-tooldock ssh wsl claude
+tooldock ssh wsl --run claude
 
 # Perfect for:
 # - Working on remote projects
@@ -263,16 +264,16 @@ Manage Docker containers on remote hosts:
 
 ```bash
 # List containers
-tooldock ssh production docker ps
+tooldock ssh production --run "docker ps"
 
 # View logs
-tooldock ssh production docker logs -f my-app
+tooldock ssh production --run "docker logs -f my-app"
 
 # Exec into container
-tooldock ssh production docker exec -it my-app bash
+tooldock ssh production --run "docker exec -it my-app bash"
 
 # Docker Compose operations
-tooldock ssh staging "cd ~/app && docker-compose up -d"
+tooldock ssh staging --run "cd ~/app && docker-compose up -d"
 ```
 
 ### 4. Database Operations
@@ -281,16 +282,16 @@ Interact with databases on remote servers:
 
 ```bash
 # PostgreSQL
-tooldock ssh db-server psql -U postgres -d mydb
+tooldock ssh db-server --run "psql -U postgres -d mydb"
 
 # MySQL
-tooldock ssh mysql-server mysql -u root -p
+tooldock ssh mysql-server --run "mysql -u root -p"
 
 # Redis CLI
-tooldock ssh cache-server redis-cli
+tooldock ssh cache-server --run redis-cli
 
 # Run migration
-tooldock ssh app-server "cd ~/project && python manage.py migrate"
+tooldock ssh app-server --run "cd ~/project && python manage.py migrate"
 ```
 
 ### 5. Log Monitoring
@@ -299,13 +300,13 @@ Tail logs from remote servers:
 
 ```bash
 # Application logs
-tooldock ssh production "tail -f /var/log/app/error.log"
+tooldock ssh production --run "tail -f /var/log/app/error.log"
 
 # System logs
-tooldock ssh web-server "journalctl -f -u nginx"
+tooldock ssh web-server --run "journalctl -f -u nginx"
 
 # Docker logs
-tooldock ssh api-server "docker logs -f api-container"
+tooldock ssh api-server --run "docker logs -f api-container"
 ```
 
 ### 6. Deployment Operations
@@ -314,7 +315,7 @@ Deploy applications remotely:
 
 ```bash
 # Pull and restart
-tooldock ssh production "
+tooldock ssh production --run "
   cd /var/www/app
   git pull origin main
   npm install
@@ -322,7 +323,7 @@ tooldock ssh production "
 "
 
 # Build and deploy
-tooldock ssh staging "
+tooldock ssh staging --run "
   cd ~/project
   git fetch --all
   git reset --hard origin/develop
@@ -337,16 +338,16 @@ Perform system tasks:
 
 ```bash
 # Check disk space
-tooldock ssh server df -h
+tooldock ssh server --run "df -h"
 
 # Monitor resources
-tooldock ssh server htop
+tooldock ssh server --run htop
 
 # View running processes
-tooldock ssh server ps aux | grep node
+tooldock ssh server --run "ps aux | grep node"
 
 # System updates
-tooldock ssh server "sudo apt update && sudo apt upgrade -y"
+tooldock ssh server --run "sudo apt update && sudo apt upgrade -y"
 ```
 
 ## Advanced Usage
@@ -363,7 +364,7 @@ Host jump-server
   ForwardAgent yes
 
 # Now you can access internal hosts through jump server
-tooldock ssh jump-server ssh internal-host
+tooldock ssh jump-server --run "ssh internal-host"
 ```
 
 ### Port Forwarding
@@ -375,7 +376,7 @@ Combine with `tooldock tunnel` for port forwarding:
 tooldock tunnel start -p 8080 -H wsl
 
 # In another: Run service
-tooldock ssh wsl "cd ~/api && poetry run api"
+tooldock ssh wsl --run "cd ~/api && poetry run api"
 
 # Access on localhost:8080 from your Mac
 ```
@@ -680,6 +681,12 @@ tooldock ssh internal-db
 - ✅ WSL (Windows Subsystem for Linux)
 
 ## Version History
+
+### 1.2.0 (2026-01-25)
+- Added `--run` flag for explicit command execution
+- Added `--script` flag for executing local scripts on remote hosts
+- Removed positional argument syntax for cleaner, more explicit interface
+- Improved help documentation with new flag examples
 
 ### 1.1.0 (2026-01-24)
 - Added remote command execution
