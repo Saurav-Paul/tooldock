@@ -15,10 +15,10 @@ tooldock is a plugin manager for CLI tools. Install only the tools you need, whe
 curl -sfL https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/install.sh | sh
 
 # Install a plugin
-tooldock plugin install ports
+tooldock plugin install tunnel
 
 # Use it immediately
-tooldock ports start -p 5432 --host wsl
+tooldock tunnel start -p 5432 --host wsl
 ```
 
 ## Features
@@ -76,16 +76,16 @@ tooldock --version
 tooldock plugin list
 
 # Install a plugin
-tooldock plugin install ports
+tooldock plugin install tunnel
 
 # Use the plugin
-tooldock ports start -p 5432 --host user@server
+tooldock tunnel start -p 5432 --host user@server
 
 # Update a plugin
-tooldock plugin update ports
+tooldock plugin update tunnel
 
 # Remove a plugin
-tooldock plugin remove ports
+tooldock plugin remove tunnel
 ```
 
 ## Documentation
@@ -123,44 +123,66 @@ tooldock plugin remove ports
 
 ### Currently Available
 
+📦 **[View All Plugins →](tooldock-plugins/README.md)**
+
 All plugins are available in the [`tooldock-plugins/`](tooldock-plugins/) directory of this repository.
 
-#### 🔌 ports - SSH Port Forwarding Manager
-**Location**: [`tooldock-plugins/ports/`](tooldock-plugins/ports/)
-**Version**: 1.0.0
-**Type**: Shell Script
+---
 
-Manage SSH port forwards with a beautiful CLI interface.
+#### 🚇 tunnel - SSH Tunnel Manager
+**Version**: 1.0.0 | **[Full Documentation →](tooldock-plugins/tunnel/README.md)**
+
+Manage SSH port forwards with a beautiful CLI interface and auto-discovery.
 
 **Installation:**
 ```bash
-tooldock plugin install ports
+tooldock plugin install tunnel
 ```
 
 **Quick Start:**
 ```bash
-# Forward a port
-tooldock ports start -p 5432 -H user@server
-
-# List active tunnels
-tooldock ports list
-
-# Stop a tunnel
-tooldock ports stop 5432
-
-# Stop all tunnels
-tooldock ports stopall
+tooldock tunnel start -p 5432 -H user@server
+tooldock tunnel list
+tooldock tunnel stop 5432
 ```
 
-**Features:**
-- ✅ Start/stop/restart SSH tunnels
-- ✅ Beautiful colored terminal UI
-- ✅ Auto-cleanup of stale tunnels
-- ✅ Support for jump hosts
-- ✅ Port remapping (local:remote)
-- ✅ Cross-platform (macOS/Linux)
+---
 
-[View full documentation →](tooldock-plugins/ports/README.md)
+#### 🔐 ssh - SSH Host Manager
+**Version**: 1.2.0 | **[Full Documentation →](tooldock-plugins/ssh/README.md)**
+
+Interactive SSH host manager with remote command execution.
+
+**Installation:**
+```bash
+tooldock plugin install ssh
+```
+
+**Quick Start:**
+```bash
+tooldock ssh                             # Interactive selection
+tooldock ssh wsl --run "docker ps"       # Run commands remotely
+tooldock ssh wsl --script ./deploy.sh    # Execute local script
+```
+
+---
+
+#### 📝 snippet - Command Snippet Manager
+**Version**: 1.0.0 | **[Full Documentation →](tooldock-plugins/snippet/README.md)**
+
+Save and run frequently used commands with variable substitution.
+
+**Installation:**
+```bash
+tooldock plugin install snippet
+```
+
+**Quick Start:**
+```bash
+tooldock snippet save deploy "cd /app && git pull"
+tooldock snippet save greet "echo 'Hello {{name}}!'"
+tooldock snippet run greet name=John
+```
 
 ---
 
@@ -173,7 +195,7 @@ Plugins live in [`tooldock-plugins/`](tooldock-plugins/). To add a new plugin:
 3. Update [`tooldock-plugins/plugins.json`](tooldock-plugins/plugins.json)
 4. Push to GitHub - users can install immediately!
 
-[Plugin development guide →](tooldock-plugins/README.md)
+📦 **[Plugin Development Guide →](tooldock-plugins/README.md)**
 
 ### Plugin Commands
 
@@ -282,16 +304,16 @@ tooldock/
 tooldock plugin list
 
 # Search for a plugin
-tooldock plugin search port
+tooldock plugin search tunnel
 
 # Install a plugin
-tooldock plugin install ports
+tooldock plugin install tunnel
 
 # Update all plugins
-tooldock plugin update ports
+tooldock plugin update tunnel
 
 # Remove a plugin
-tooldock plugin remove ports
+tooldock plugin remove tunnel
 ```
 
 ### Using Plugins
@@ -299,14 +321,18 @@ tooldock plugin remove ports
 Once installed, use plugins directly:
 
 ```bash
-# SSH port forwarding
-tooldock ports start -p 5432 --host wsl
-tooldock ports list
-tooldock ports stop 5432
+# SSH tunnel management
+tooldock tunnel start -p 5432 --host wsl
+tooldock tunnel list
+tooldock tunnel stop 5432
 
-# Future plugins:
-tooldock db-connect production
-tooldock api-client POST /api/users
+# SSH host management
+tooldock ssh                          # Interactive selection
+tooldock ssh wsl --run "docker ps"    # Run commands
+
+# Command snippets
+tooldock snippet save deploy "cd /app && git pull"
+tooldock snippet run deploy
 ```
 
 ## Architecture
@@ -324,8 +350,9 @@ tooldock api-client POST /api/users
                   │
                   ├─ ~/.tooldock/
                   │  ├─ plugins/
-                  │  │  ├─ ports
-                  │  │  └─ other-tools
+                  │  │  ├─ tunnel
+                  │  │  ├─ ssh
+                  │  │  └─ snippet
                   │  └─ cache/
                   │     └─ registry.json
                   │
