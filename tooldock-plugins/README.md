@@ -7,6 +7,8 @@ This directory contains all plugins available for tooldock.
 ### tunnel
 SSH tunnel manager - forward and manage SSH tunnels with auto-discovery.
 
+**[Full Documentation →](tunnel/README.md)**
+
 **Install:**
 ```bash
 tooldock plugin install tunnel
@@ -22,6 +24,8 @@ tooldock tunnel stop 5432
 ### ssh
 Interactive SSH host manager - quickly connect to saved hosts and run remote commands.
 
+**[Full Documentation →](ssh/README.md)**
+
 **Install:**
 ```bash
 tooldock plugin install ssh
@@ -33,6 +37,25 @@ tooldock ssh                             # Interactive selection
 tooldock ssh wsl                         # Direct connection
 tooldock ssh wsl --run "docker ps"       # Run commands remotely
 tooldock ssh wsl --script ./deploy.sh    # Execute local script
+```
+
+### snippet
+Command snippet manager - save and run frequently used commands with variable substitution.
+
+**[Full Documentation →](snippet/README.md)**
+
+**Install:**
+```bash
+tooldock plugin install snippet
+```
+
+**Usage:**
+```bash
+tooldock snippet save deploy "cd /app && git pull"
+tooldock snippet save greet "echo 'Hello {{name}}!'"
+tooldock snippet run deploy
+tooldock snippet run greet name=John
+tooldock snippet list
 ```
 
 ## Adding a New Plugin
@@ -79,8 +102,15 @@ tooldock ssh wsl --script ./deploy.sh    # Execute local script
 tooldock-plugins/
 ├── plugins.json          # Registry file
 ├── README.md            # This file
-└── ports/               # Plugin directory
-    └── ports.sh         # Plugin executable
+├── tunnel/              # Plugin directory
+│   ├── README.md        # Plugin documentation
+│   └── tunnel.sh        # Plugin executable
+├── ssh/
+│   ├── README.md
+│   └── ssh.sh
+└── snippet/
+    ├── README.md
+    └── snippet.sh
 ```
 
 ## Plugin Requirements
@@ -96,7 +126,7 @@ To add security checksums to your plugins:
 
 ```bash
 # Generate SHA256 checksum
-sha256sum tooldock-plugins/ports/ports.sh
+sha256sum tooldock-plugins/myplugin/myplugin.sh
 
 # Add to plugins.json
 "checksum": "sha256:yourhashhere"

@@ -16,6 +16,14 @@
       "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/ssh/ssh.sh",
       "type": "script",
       "checksum": ""
+    },
+    {
+      "name": "snippet",
+      "description": "Command snippet manager - save and run frequently used commands with variables",
+      "version": "1.0.0",
+      "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/snippet/snippet.sh",
+      "type": "script",
+      "checksum": ""
     }
   ]
 }
