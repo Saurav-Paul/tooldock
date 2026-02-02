@@ -124,8 +124,8 @@ show_menu() {
     echo -e "${GREEN}🔗 Connecting to ${selected_host}...${NC}"
     echo ""
 
-    # Connect
-    ssh "$selected_host"
+    # Connect with TTY allocation for proper terminal
+    ssh -t "$selected_host"
 }
 
 # Direct connection
@@ -148,11 +148,11 @@ connect_to_host() {
 
     echo ""
 
-    # If command arguments provided, run with -t for interactive support
+    # Always use -t for proper TTY allocation
     if [ ${#cmd_args[@]} -gt 0 ]; then
         ssh -t "$hostname" "${cmd_args[@]}"
     else
-        ssh "$hostname"
+        ssh -t "$hostname"
     fi
 }
 
