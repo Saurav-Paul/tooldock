@@ -454,17 +454,61 @@ stop_all_tunnels() {
     local count=0
     while IFS='|' read -r port remote host pid timestamp; do
         [ -z "$port" ] && continue
-        if is_port_in_use "$port"; then
-            local pid=$(get_pid_for_port "$port")
-            if [ ! -z "$pid" ]; then
-                kill "$pid" 2>/dev/null && ((count++))
+        # Use the pid from the registry file directly
+        if [ ! -z "$pid" ] && ps -p "$pid" >/dev/null 2>&1; then
+            if kill "$pid" 2>/dev/null; then
+                ((count++))
+                echo -e "${GREEN}  ✓ Stopped tunnel on port $port${NC}"
             fi
         fi
     done < "$TUNNEL_FILE" 2>/dev/null
     
     > "$TUNNEL_FILE"  # Clear the file
-    
+
     echo -e "${GREEN}✅ Stopped $count tunnel(s)${NC}"
+}
+
+cleanup_orphaned_tunnels() {
+    echo -e "${YELLOW}🧹 Cleaning up orphaned SSH tunnel processes...${NC}"
+    echo ""
+
+    # Find all SSH tunnel processes (ssh -fN -L)
+    local pids=$(ps aux | grep "ssh.*-fN.*-L" | grep -v grep | awk '{print $2}')
+
+    if [ -z "$pids" ]; then
+        echo -e "${BLUE}No orphaned tunnels found${NC}"
+        return 0
+    fi
+
+    echo -e "${CYAN}Found SSH tunnel processes:${NC}"
+    ps aux | grep "ssh.*-fN.*-L" | grep -v grep | awk '{printf "  PID %s: %s\n", $2, substr($0, index($0,$11))}'
+    echo ""
+
+    echo -e "${YELLOW}⚠️  Kill these processes? (y/N)${NC}"
+    read -r confirm || {
+        echo ""
+        echo -e "${BLUE}Cancelled${NC}"
+        return 0
+    }
+
+    if [[ ! $confirm =~ ^[Yy]$ ]]; then
+        echo -e "${BLUE}Cancelled${NC}"
+        return 0
+    fi
+
+    local count=0
+    for pid in $pids; do
+        if kill "$pid" 2>/dev/null; then
+            ((count++))
+            echo -e "${GREEN}✅ Killed process $pid${NC}"
+        fi
+    done
+
+    # Clear the registry file
+    > "$TUNNEL_FILE"
+
+    echo ""
+    echo -e "${GREEN}✅ Cleaned up $count orphaned tunnel(s)${NC}"
 }
 
 show_help() {
@@ -499,6 +543,10 @@ show_help() {
     echo ""
     echo -e "  ${YELLOW}tunnel stopall${NC}"
     echo -e "    Stop all tunnels"
+    echo ""
+    echo -e "  ${YELLOW}tunnel cleanup${NC}"
+    echo -e "    Find and kill orphaned SSH tunnel processes"
+    echo -e "    ${DIM}Use this if tunnels aren't showing in list but ports still work${NC}"
     echo ""
     echo -e "  ${YELLOW}tunnel version${NC}"
     echo -e "    Show version information"
@@ -573,6 +621,9 @@ main() {
             ;;
         stopall|clear)
             stop_all_tunnels
+            ;;
+        cleanup)
+            cleanup_orphaned_tunnels
             ;;
         version|-v|--version)
             show_version
