@@ -175,7 +175,8 @@ run_command() {
     fi
 
     echo ""
-    ssh -t "$hostname" "$command"
+    # Use login shell to load user's PATH and environment
+    ssh -t "$hostname" "bash -l -c '$command'"
 }
 
 # Run script with --script flag
