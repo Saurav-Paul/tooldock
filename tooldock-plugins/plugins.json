@@ -24,6 +24,14 @@
       "url": "https://raw.githubusercontent.com/Saurav-Paul/tooldock/main/tooldock-plugins/snippet/snippet.sh",
       "type": "script",
       "checksum": ""
+    },
+    {
+      "name": "drop",
+      "description": "Encrypted file transfer - compress, encrypt, upload/download files",
+      "version": "1.0.0",
+      "url": "https://raw.githubusercontent.com/Saurav-Paul/drop/main/cli/drop.sh",
+      "type": "script",
+      "checksum": ""
     }
   ]
 }
