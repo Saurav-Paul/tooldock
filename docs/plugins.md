@@ -88,6 +88,55 @@ tooldock ports start -p 8080:80 --host wsl
 
 ---
 
+### drop - Encrypted File Transfer
+
+**Status**: ✅ Available
+**Version**: 1.0.0
+**Type**: Bash Script
+
+End-to-end encrypted file transfer CLI. Compress, encrypt, upload, and share files via a self-hosted [Drop](https://github.com/Saurav-Paul/drop) server.
+
+#### Features
+- AES-256-CBC encryption with PBKDF2 (100k iterations)
+- gzip compression before upload
+- Optional encryption (empty password = compress only)
+- Admin mode for bypassing server limits
+- Auto clipboard copy of download URL
+
+#### Installation
+
+```bash
+tooldock plugin install drop
+```
+
+#### Usage
+
+```bash
+# Upload a file (prompts for encryption password)
+tooldock drop secret.pdf
+
+# Upload with expiry and max downloads
+tooldock drop secret.pdf -e 3d -m 5
+
+# Upload as admin (bypass server limits)
+tooldock drop secret.pdf --admin
+
+# Download and decrypt
+tooldock drop get https://drop.example.com/aB3xYz/secret.pdf
+```
+
+#### Environment
+
+| Variable | Default | Description |
+|---|---|---|
+| `DROP_SERVER` | `http://localhost:8802` | Drop server URL |
+| `DROP_ADMIN_USER` | — | Admin username (prompts if not set) |
+| `DROP_ADMIN_PASS` | — | Admin password (prompts if not set) |
+
+**[Full Documentation →](https://github.com/Saurav-Paul/drop)**
+
+---
+
 ## Coming Soon
 
 The following plugins are planned or under development:
@@ -160,6 +209,7 @@ tooldock my-tool --help
 | Plugin | Downloads | Rating | Last Updated |
 |--------|-----------|--------|--------------|
 | ports  | -         | ⭐⭐⭐⭐⭐ | 2026-01-23   |
+| drop   | -         | ⭐⭐⭐⭐⭐ | 2026-02-16   |
 
 ## Contributing Plugins
 

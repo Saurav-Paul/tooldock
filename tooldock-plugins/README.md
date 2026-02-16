@@ -58,6 +58,24 @@ tooldock snippet run greet name=John
 tooldock snippet list
 ```
 
+### drop
+Encrypted file transfer - compress, encrypt, upload/download files via a self-hosted Drop server.
+
+**[Full Documentation →](https://github.com/Saurav-Paul/drop)**
+
+**Install:**
+```bash
+tooldock plugin install drop
+```
+
+**Usage:**
+```bash
+tooldock drop secret.pdf                          # Encrypt + upload
+tooldock drop secret.pdf -e 3d -m 5               # With expiry and max downloads
+tooldock drop secret.pdf --admin                   # Admin mode (bypass limits)
+tooldock drop get https://drop.example.com/x/file  # Download + decrypt
+```
+
 ## Adding a New Plugin
 
 1. **Create plugin directory:**
